@@ -1,10 +1,10 @@
-package kz.dar.academy.backend.service;
+package kz.dar.academy.backend.service.deprecated;
 
 import kz.dar.academy.backend.model.EmployeeModel;
 
 import java.util.List;
 
-public interface EmployeeService {
+public interface EmployeeServiceOld {
     void createEmployee(EmployeeModel employeeModel);
 
     List<EmployeeModel> getAllEmployees();

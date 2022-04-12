@@ -1,4 +1,4 @@
-package kz.dar.academy.backend.service;
+package kz.dar.academy.backend.service.deprecated;
 
 import kz.dar.academy.backend.model.EmployeeModel;
 import org.springframework.stereotype.Service;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class EmployeeServiceImpl implements EmployeeService {
+public class EmployeeServiceImplOld implements EmployeeServiceOld {
     private static final HashMap<String, EmployeeModel> employeeMap = new HashMap<>();
 
     static {
