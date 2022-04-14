@@ -1,4 +1,4 @@
-package kz.dar.academy.backend.controller;
+package kz.dar.academy.backend.controller.deprecated;
 
 import kz.dar.academy.backend.model.EmployeeModel;
 import kz.dar.academy.backend.service.deprecated.EmployeeServiceOld;

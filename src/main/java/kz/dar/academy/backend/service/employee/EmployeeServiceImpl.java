@@ -15,30 +15,30 @@ import java.util.stream.Collectors;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    static ModelMapper modelMapper = new ModelMapper();
+
+    static {
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+    }
 
     @Override
     public EmployeeResponse createEmployee(EmployeeRequest employeeRequest) {
         employeeRequest.setEmployeeId(UUID.randomUUID().toString());
 
-        ModelMapper modelMapper = new ModelMapper();
-        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         EmployeeEntity employeeEntity = modelMapper.map(employeeRequest, EmployeeEntity.class);
-
         employeeEntity = employeeRepository.save(employeeEntity);
+
         return modelMapper.map(employeeEntity, EmployeeResponse.class);
     }
 
     @Override
     public EmployeeResponse updateEmployee(EmployeeRequest employeeRequest) {
-        ModelMapper modelMapper = new ModelMapper();
-        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         EmployeeEntity employeeEntity = modelMapper.map(employeeRequest, EmployeeEntity.class);
 
         EmployeeEntity dbEntity = employeeRepository.getEmployeeEntityByEmployeeId(employeeRequest.getEmployeeId());
-
         employeeEntity.setId(dbEntity.getId());
 
         employeeEntity = employeeRepository.save(employeeEntity);
@@ -47,22 +47,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<EmployeeResponse> getAllEmployees() {
-        ModelMapper modelMapper = new ModelMapper();
-        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-
-        return employeeRepository.getEmployeeEntitiesBy().stream()
-                .map(employee -> modelMapper.map(employee, EmployeeResponse.class))
-                .collect(Collectors.toList());
+    public EmployeeResponse getEmployeeById(String employeeId) {
+        EmployeeEntity employeeEntity = employeeRepository.getEmployeeEntityByEmployeeId(employeeId);
+        return modelMapper.map(employeeEntity, EmployeeResponse.class);
     }
 
     @Override
-    public EmployeeResponse getEmployeeById(String employeeId) {
-        ModelMapper modelMapper = new ModelMapper();
-        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-
-        EmployeeEntity employeeEntity = employeeRepository.getEmployeeEntityByEmployeeId(employeeId);
-        return modelMapper.map(employeeEntity, EmployeeResponse.class);
+    public List<EmployeeResponse> getAllEmployees() {
+        return employeeRepository.getEmployeeEntitiesBy().stream()
+                .map(employee -> modelMapper.map(employee, EmployeeResponse.class))
+                .collect(Collectors.toList());
     }
 
     @Override
